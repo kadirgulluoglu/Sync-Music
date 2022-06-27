@@ -36,7 +36,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   http:
   youtube_player_iframe:
+  youtube_player_flutter:
   cached_network_image:
+  youtube_api:
 
 dev_dependencies:
   flutter_test:
