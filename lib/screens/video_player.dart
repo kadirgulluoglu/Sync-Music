@@ -28,15 +28,44 @@ class _VideoScreenState extends State<VideoScreen> {
         strictRelatedVideos: false,
         mute: false,
         autoPlay: true,
+        enableCaption: false,
       ),
     );
+    _controller?.hideTopMenu();
+    _controller?.hidePauseOverlay();
   }
 
   @override
   Widget build(BuildContext context) {
-    return YoutubePlayerIFrame(
-      controller: _controller!,
-      aspectRatio: 4 / 6,
+    return Scaffold(
+      body: Column(
+        children: [
+          SizedBox(height: 30),
+          YoutubeValueBuilder(
+            controller: _controller,
+            builder: (context, value) {
+              return IconButton(
+                icon: Icon(
+                  value.playerState == PlayerState.playing
+                      ? Icons.pause
+                      : Icons.play_arrow,
+                ),
+                onPressed: value.isReady
+                    ? () {
+                        value.playerState == PlayerState.playing
+                            ? _controller?.pause()
+                            : _controller?.play();
+                      }
+                    : null,
+              );
+            },
+          ),
+          YoutubePlayerIFrame(
+            controller: _controller!,
+            aspectRatio: 4 / 6,
+          ),
+        ],
+      ),
     );
   }
 }
