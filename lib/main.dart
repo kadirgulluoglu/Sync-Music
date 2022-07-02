@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),
-      home: VideoScreen(id: "dZvTIw6EG_E"),
+      home: HomePage(),
     );
   }
 }

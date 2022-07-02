@@ -5,10 +5,7 @@ import 'package:youtube_sync_music/screens/video_player.dart';
 import 'package:youtube_sync_music/services/api_services.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
+  HomePage({Key? key}) : super(key: key);
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -16,36 +13,71 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<VideoModel>? _videoModel;
   bool _isLoading = false;
+  TextEditingController? searchcontroller = TextEditingController();
+  String search = "Kadir";
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: NotificationListener<ScrollNotification>(
-        onNotification: (ScrollNotification scrollDetails) {
-          if (!_isLoading &&
-              scrollDetails.metrics.pixels ==
-                  scrollDetails.metrics.maxScrollExtent) {
-            _getMoreVideos();
-          }
-          return false;
-        },
-        child: _getVideos(),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              TextField(
+                cursorColor: Colors.grey.shade900,
+                maxLines: 1,
+                onChanged: (text) {
+                  setState(() {
+                    search = searchcontroller!.text;
+                  });
+                },
+                controller: searchcontroller,
+                decoration: InputDecoration(
+                  hintText: "Video Ara",
+                  hintStyle: TextStyle(color: Theme.of(context).focusColor),
+                  labelStyle: TextStyle(color: Colors.black),
+                  floatingLabelBehavior: FloatingLabelBehavior.always,
+                  fillColor: Colors.indigo,
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                      borderSide: BorderSide(color: Colors.black)),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                      borderSide: BorderSide(color: Colors.black45)),
+                ),
+              ),
+              SizedBox(height: size.height * .4),
+              NotificationListener<ScrollNotification>(
+                onNotification: (ScrollNotification scrollDetails) {
+                  if (!_isLoading &&
+                      scrollDetails.metrics.pixels ==
+                          scrollDetails.metrics.maxScrollExtent) {
+                    setState(() {
+                      _getMoreVideos();
+                    });
+                  }
+                  return false;
+                },
+                child: _getVideos(),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
 
   FutureBuilder _getVideos() {
     return FutureBuilder(
-      future: APIService().fetchVideosFromPlaylist(),
+      future: APIService().fetchVideosFromPlaylist(search),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           _videoModel = snapshot.data;
           return _buildBody(_videoModel);
         }
-
         return Center(
           child: CircularProgressIndicator(),
         );
@@ -55,9 +87,10 @@ class _HomePageState extends State<HomePage> {
 
   _getMoreVideos() async {
     List<VideoModel> moreVideos =
-        await APIService.instance.fetchVideosFromPlaylist();
+        await APIService.instance.fetchVideosFromPlaylist(search);
     List<VideoModel> allVideos = _videoModel!..addAll(moreVideos);
     setState(() {
+      print(search + "sa");
       _videoModel = allVideos;
     });
   }

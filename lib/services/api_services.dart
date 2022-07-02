@@ -14,18 +14,17 @@ class APIService {
   final String _baseUrl = 'youtube.googleapis.com';
   String _nextPageToken = '';
 
-  Future<List<VideoModel>> fetchVideosFromPlaylist() async {
+  Future<List<VideoModel>> fetchVideosFromPlaylist(String q) async {
     Map<String, String> parameters = {
       'part': 'snippet',
       'maxResults': '8',
       //'order': 'viewCount',
-      'q': 'bangla%20cartoon',
+      'q': 'Cem Yılmaz',
       'regionCode': 'bd',
       'safeSearch': 'moderate',
       'pageToken': _nextPageToken,
-      'key': API_KEY,
+      'key': "AIzaSyCYJ3qYjFvtUHfl7ockRerW1h2S_Hdgf2A",
     };
-
     Uri uri = Uri.https(
       _baseUrl,
       '/youtube/v3/search',
@@ -37,7 +36,7 @@ class APIService {
     };
 
     var response = await http.get(uri, headers: headers);
-
+    print(response.statusCode);
     if (response.statusCode == 200) {
       var data = json.decode(response.body);
 
@@ -53,6 +52,7 @@ class APIService {
 
       return videos;
     } else {
+      print("Hata var gardaş");
       throw json.decode(response.body)['error']['message'];
     }
   }
