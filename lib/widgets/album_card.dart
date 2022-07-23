@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:spotify_clone/views/album_view.dart';
+import '../screens/album_view.dart';
 
 class AlbumCard extends StatelessWidget {
   final ImageProvider image;
   final String label;
-  final Function onTap;
   final double size;
   const AlbumCard({
-    Key key,
-    this.image,
-    this.label,
-    this.onTap,
+    Key? key,
+    required this.image,
+    required this.label,
     this.size = 120,
   }) : super(key: key);
 

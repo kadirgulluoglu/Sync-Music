@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:spotify_clone/views/album_view.dart';
-import 'package:spotify_clone/widgets/album_card.dart';
-import 'package:spotify_clone/widgets/song_card.dart';
+
+import '../widgets/album_card.dart';
+import '../widgets/song_card.dart';
 
 class HomeView extends StatefulWidget {
   @override
@@ -54,7 +54,7 @@ class _HomeViewState extends State<HomeView> {
                             style: Theme.of(context).textTheme.headline6,
                           ),
                           Row(
-                            children: [
+                            children: const [
                               Icon(Icons.history),
                               SizedBox(width: 16),
                               Icon(Icons.settings),
@@ -68,7 +68,7 @@ class _HomeViewState extends State<HomeView> {
                       physics: BouncingScrollPhysics(),
                       padding: EdgeInsets.all(16),
                       child: Row(
-                        children: [
+                        children: const [
                           AlbumCard(
                             label: "Best Mode",
                             image: AssetImage("assets/album7.jpg"),
@@ -108,7 +108,7 @@ class _HomeViewState extends State<HomeView> {
                           ),
                           SizedBox(height: 16),
                           Row(
-                            children: [
+                            children: const [
                               RowAlbumCard(
                                 label: "Top 50 - Global",
                                 image: AssetImage("assets/top50.jpg"),
@@ -122,7 +122,7 @@ class _HomeViewState extends State<HomeView> {
                           ),
                           SizedBox(height: 16),
                           Row(
-                            children: [
+                            children: const [
                               RowAlbumCard(
                                 label: "RapCaviar",
                                 image: AssetImage("assets/album2.jpg"),
@@ -136,7 +136,7 @@ class _HomeViewState extends State<HomeView> {
                           ),
                           SizedBox(height: 16),
                           Row(
-                            children: [
+                            children: const [
                               RowAlbumCard(
                                 label: "Top 50 - USA",
                                 image: AssetImage("assets/album9.jpg"),
@@ -168,7 +168,7 @@ class _HomeViewState extends State<HomeView> {
                             horizontal: 20,
                           ),
                           child: Row(
-                            children: [
+                            children: const [
                               SongCard(
                                 image: AssetImage("assets/album2.jpg"),
                               ),
@@ -215,7 +215,7 @@ class _HomeViewState extends State<HomeView> {
                             horizontal: 20,
                           ),
                           child: Row(
-                            children: [
+                            children: const [
                               SongCard(
                                 image: AssetImage("assets/album8.jpg"),
                               ),
@@ -260,9 +260,9 @@ class RowAlbumCard extends StatelessWidget {
   final AssetImage image;
   final String label;
   const RowAlbumCard({
-    Key key,
-    this.image,
-    this.label,
+    Key? key,
+    required this.image,
+    required this.label,
   }) : super(key: key);
 
   @override

@@ -1,17 +1,18 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:spotify_clone/widgets/album_card.dart';
+
+import '../widgets/album_card.dart';
 
 class AlbumView extends StatefulWidget {
   final ImageProvider image;
 
-  const AlbumView({Key key, this.image}) : super(key: key);
+  const AlbumView({Key? key, required this.image}) : super(key: key);
   @override
   _AlbumViewState createState() => _AlbumViewState();
 }
 
 class _AlbumViewState extends State<AlbumView> {
-  ScrollController scrollController;
+  late ScrollController scrollController;
   double imageSize = 0;
   double initialSize = 240;
   double containerHeight = 500;
