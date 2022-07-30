@@ -35,10 +35,15 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons:
   page_transition:
-  audioplayers:
+  audioplayers: ^0.18.1
+
+  just_audio:
+  just_audio_background:
   cloud_firestore:
   firebase_storage:
   file_picker:
+  provider:
+  get_it:
 dev_dependencies:
   flutter_test:
     sdk: flutter

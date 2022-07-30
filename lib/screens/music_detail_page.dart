@@ -1,6 +1,5 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-
 import '../theme/colors.dart';
 
 class MusicDetailPage extends StatefulWidget {
@@ -23,11 +22,30 @@ class MusicDetailPage extends StatefulWidget {
 }
 
 class _MusicDetailPageState extends State<MusicDetailPage> {
-  late double _currentSliderValue;
-  final audioPlayer = AudioPlayer();
+  AudioPlayer audioPlayer = AudioPlayer(mode: PlayerMode.MEDIA_PLAYER);
   bool isPlaying = true;
-  Duration duration = Duration.zero;
-  Duration position = Duration.zero;
+  Duration duration = Duration();
+  Duration position = Duration();
+  void playMusic(String url) async {
+    audioPlayer.setReleaseMode(ReleaseMode.LOOP);
+    audioPlayer.play(url);
+    audioPlayer.onDurationChanged.listen((event) {
+      setState(() {
+        duration = event;
+      });
+    });
+
+    audioPlayer.onAudioPositionChanged.listen((event) {
+      setState(() {
+        position = event;
+      });
+    });
+  }
+
+  seekMusic(int sec) {
+    Duration newPosition = Duration(seconds: sec);
+    audioPlayer.seek(newPosition);
+  }
 
   // convert format time
   String formatTime(Duration duration) {
@@ -42,17 +60,11 @@ class _MusicDetailPageState extends State<MusicDetailPage> {
     ].join(':');
   }
 
-  Future setAudio() async {
-    audioPlayer.setReleaseMode(ReleaseMode.loop);
-    String url = widget.songUrl;
-    audioPlayer.setSourceUrl(url);
-  }
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    setAudio();
+    playMusic(widget.songUrl);
   }
 
   @override
@@ -168,16 +180,17 @@ class _MusicDetailPageState extends State<MusicDetailPage> {
           SizedBox(
             height: 10,
           ),
-          Slider(
-              activeColor: primary,
-              value: position.inSeconds.toDouble(),
-              max: duration.inSeconds.toDouble(),
-              min: 0,
-              onChanged: (value) {
-                setState(() {
-                  _currentSliderValue = value;
-                });
-              }),
+          Slider.adaptive(
+            activeColor: primary,
+            value: position.inSeconds.toDouble(),
+            max: duration.inSeconds.toDouble(),
+            min: 0.0,
+            onChanged: (value) {
+              setState(() {
+                seekMusic(value.toInt());
+              });
+            },
+          ),
           SizedBox(
             height: 20,
           ),

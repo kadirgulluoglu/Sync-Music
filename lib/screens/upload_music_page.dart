@@ -51,7 +51,7 @@ class _UploadState extends State<Upload> {
     UploadTask uploadTask = refenceyol.putData(song);
     uploadTask.whenComplete(() async {
       try {
-        song_down_url = await refenceyol.getDownloadURL();
+        song_down_url = refenceyol.getDownloadURL();
       } catch (onError) {
         print("Errors");
       }

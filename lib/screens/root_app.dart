@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:youtube_sync_music/screens/upload_music_page.dart';
 
-import '../json/songs_json.dart';
 import '../theme/colors.dart';
 import 'home_page.dart';
 
