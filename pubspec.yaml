@@ -36,9 +36,6 @@ dependencies:
   cupertino_icons:
   page_transition:
   audioplayers: ^0.18.1
-
-  just_audio:
-  just_audio_background:
   cloud_firestore:
   firebase_storage:
   file_picker:
