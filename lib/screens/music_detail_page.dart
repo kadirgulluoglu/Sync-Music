@@ -344,7 +344,7 @@ class _MusicDetailPageState extends State<MusicDetailPage> {
             ),
           ],
           content: Container(
-            height: 75,
+            height: 50,
             child: Column(
               children: [
                 Text(
