@@ -1,4 +1,8 @@
+import 'dart:convert';
+import 'dart:math';
+
 import 'package:audioplayers/audioplayers.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../theme/colors.dart';
 
@@ -24,6 +28,10 @@ class MusicDetailPage extends StatefulWidget {
 class _MusicDetailPageState extends State<MusicDetailPage> {
   AudioPlayer audioPlayer = AudioPlayer(mode: PlayerMode.MEDIA_PLAYER);
   bool isPlaying = true;
+  bool syncMusic = false;
+  int? result;
+
+  var currentvalue;
   Duration duration = Duration();
   Duration position = Duration();
   void playMusic(String url) async {
@@ -99,6 +107,16 @@ class _MusicDetailPageState extends State<MusicDetailPage> {
   }
 
   Widget getBody() {
+    var random = Random();
+    final docSync =
+        FirebaseFirestore.instance.collection("sync").doc(result.toString());
+    if (result == null) {
+      result = 100000 + random.nextInt(999999 - 100000);
+    }
+    if (syncMusic) {
+      docSync.update({'currentPosition': position.toString()});
+    }
+
     var size = MediaQuery.of(context).size;
     return SingleChildScrollView(
       child: Column(
@@ -276,30 +294,70 @@ class _MusicDetailPageState extends State<MusicDetailPage> {
             ),
           ),
           SizedBox(
-            height: 25,
+            height: 10,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.tv,
-                color: primary,
-                size: 20,
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 3),
-                child: Text(
-                  "Chromecast is ready",
+          GestureDetector(
+            onTap: () async {
+              syncMusic = true;
+              docSync.set({
+                'musicName': widget.title,
+                'artistName': widget.description,
+                'songUrl': widget.songUrl,
+                'imgUrl': widget.img
+              });
+              openDialog();
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.sync,
+                  color: primary,
+                  size: 20,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  "Müzikleri eşitleyin",
                   style: TextStyle(color: primary),
                 ),
-              )
-            ],
+              ],
+            ),
           )
         ],
       ),
     );
   }
+
+  Future openDialog() => showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Müzik Eşitleme"),
+          actions: [
+            MaterialButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("Tamam"),
+            ),
+          ],
+          content: Container(
+            height: 75,
+            child: Column(
+              children: [
+                Text(
+                  result.toString(),
+                  style: TextStyle(color: primary, fontSize: 30),
+                ),
+                Text(
+                  position.toString(),
+                  style: TextStyle(color: Colors.red),
+                ),
+              ],
+            ),
+          ),
+        );
+      });
 }

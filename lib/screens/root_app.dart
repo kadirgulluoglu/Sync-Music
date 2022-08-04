@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:youtube_sync_music/screens/sync_music.dart';
 import 'package:youtube_sync_music/screens/upload_music_page.dart';
 
 import '../theme/colors.dart';
@@ -27,13 +28,7 @@ class _RootAppState extends State<RootApp> {
       index: activeTab,
       children: [
         HomePage(),
-        Center(
-          child: Text(
-            "Library",
-            style: TextStyle(
-                fontSize: 20, color: white, fontWeight: FontWeight.bold),
-          ),
-        ),
+        syncMusic(),
         Center(
           child: Text(
             "Search",
@@ -43,7 +38,7 @@ class _RootAppState extends State<RootApp> {
         ),
         Center(
           child: Text(
-            "ASD",
+            "Setings",
             style: TextStyle(
                 fontSize: 20, color: white, fontWeight: FontWeight.bold),
           ),

@@ -39,8 +39,6 @@ dependencies:
   cloud_firestore:
   firebase_storage:
   file_picker:
-  provider:
-  get_it:
 dev_dependencies:
   flutter_test:
     sdk: flutter
