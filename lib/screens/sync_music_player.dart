@@ -45,7 +45,10 @@ class _SyncMusicPlayerState extends State<SyncMusicPlayer> {
               img: data['imgUrl'],
               songUrl: data['songUrl']);
         }
-        return const Center(child: CircularProgressIndicator(color: primary));
+        return Scaffold(
+          backgroundColor: black,
+          body: const Center(child: CircularProgressIndicator(color: primary)),
+        );
       },
     ));
   }

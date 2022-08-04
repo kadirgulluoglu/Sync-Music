@@ -42,7 +42,6 @@ class _SyncMusicDetailPageState extends State<SyncMusicDetailPage> {
     pos = widget.currentPosition;
     _timer = Timer.periodic(Duration(microseconds: 1), (timer) {
       setState(() {
-        print("girdim");
         title = "${DateTime.now().millisecond}";
       });
     });
@@ -96,7 +95,7 @@ class _SyncMusicDetailPageState extends State<SyncMusicDetailPage> {
   Widget build(BuildContext context) {
     if (audioState == 1 && audioPlayerState == AudioPlayerState.PLAYING) {
       int timer = int.parse(title);
-      timer = timer + 3100;
+      timer = timer + 2600;
       Duration currentPosition = Duration(milliseconds: timer);
       currentPosition += widget.currentPosition;
       audioPlayer.seek(currentPosition);
@@ -295,7 +294,6 @@ class _SyncMusicDetailPageState extends State<SyncMusicDetailPage> {
               ],
             ),
           ),
-          Text(title + "Kadir ", style: TextStyle(color: Colors.white)),
         ],
       ),
     );
