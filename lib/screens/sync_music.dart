@@ -20,6 +20,7 @@ class _syncMusicState extends State<syncMusic> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: black,
       body: loginSync(),
     );
   }
@@ -31,7 +32,9 @@ class _syncMusicState extends State<syncMusic> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          Image.asset("assets/images/logo.png"),
           TextField(
+            style: TextStyle(color: Colors.white),
             maxLength: 6,
             enableIMEPersonalizedLearning: false,
             keyboardType: TextInputType.number,
@@ -49,7 +52,7 @@ class _syncMusicState extends State<syncMusic> {
           ),
           MaterialButton(
             onPressed: () async {
-              Navigator.pushReplacement(
+              Navigator.push(
                   context,
                   PageTransition(
                       alignment: Alignment.bottomCenter,

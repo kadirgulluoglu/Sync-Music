@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "655741777417",
-    "project_id": "sync-music-73dea",
-    "storage_bucket": "sync-music-73dea.appspot.com"
+    "project_number": "140153587036",
+    "project_id": "syncmusic-742d7",
+    "storage_bucket": "syncmusic-742d7.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:655741777417:android:ef5b25ac1836a7aac6aad8",
+        "mobilesdk_app_id": "1:140153587036:android:0ad8edddf72589ea6ced99",
         "android_client_info": {
           "package_name": "com.example.youtube_sync_music"
         }
       },
       "oauth_client": [
         {
-          "client_id": "655741777417-qb3lcqrgam5fu5f3sferkshsl1aov508.apps.googleusercontent.com",
+          "client_id": "140153587036-gvqfuucpmof9nedr4vsjlt5au6f9bokm.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAqgllAkEuvFoNzRu0YsrYLPMxJWvpRiH8"
+          "current_key": "AIzaSyCNPndHbVacDXKS3RqRhiLDb0mzQCQn72I"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "655741777417-qb3lcqrgam5fu5f3sferkshsl1aov508.apps.googleusercontent.com",
+              "client_id": "140153587036-gvqfuucpmof9nedr4vsjlt5au6f9bokm.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

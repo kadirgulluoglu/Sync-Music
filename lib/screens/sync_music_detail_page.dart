@@ -1,42 +1,53 @@
-import 'dart:convert';
-import 'dart:math';
-
 import 'package:audioplayers/audioplayers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../theme/colors.dart';
+import 'dart:async';
 
-class MusicDetailPage extends StatefulWidget {
+class SyncMusicDetailPage extends StatefulWidget {
   final String title;
   final String description;
   final Color color;
   final String img;
   final String songUrl;
+  final Duration currentPosition;
 
-  const MusicDetailPage(
+  const SyncMusicDetailPage(
       {Key? key,
       required this.title,
       required this.description,
       required this.color,
       required this.img,
-      required this.songUrl})
+      required this.songUrl,
+      required this.currentPosition})
       : super(key: key);
   @override
-  _MusicDetailPageState createState() => _MusicDetailPageState();
+  _SyncMusicDetailPageState createState() => _SyncMusicDetailPageState();
 }
 
-class _MusicDetailPageState extends State<MusicDetailPage> {
-  AudioPlayer audioPlayer = AudioPlayer(mode: PlayerMode.MEDIA_PLAYER);
+class _SyncMusicDetailPageState extends State<SyncMusicDetailPage> {
+  AudioPlayer audioPlayer = AudioPlayer();
+  AudioPlayerState audioPlayerState = AudioPlayerState.PAUSED;
   bool isPlaying = true;
   bool syncMusic = false;
-  int? result;
-
-  var currentvalue;
-  Duration duration = Duration();
+  late Timer _timer;
+  String title = "";
+  int audioState = 1;
+  Duration pos = Duration();
+  Duration duration = Duration(seconds: 594);
   Duration position = Duration();
+
   void playMusic(String url) async {
-    audioPlayer.setReleaseMode(ReleaseMode.LOOP);
     audioPlayer.play(url);
+    pos = widget.currentPosition;
+    _timer = Timer.periodic(Duration(microseconds: 1), (timer) {
+      setState(() {
+        print("girdim");
+        title = "${DateTime.now().millisecond}";
+      });
+    });
+    audioPlayer.setReleaseMode(ReleaseMode.STOP);
+
     audioPlayer.onDurationChanged.listen((event) {
       setState(() {
         duration = event;
@@ -48,11 +59,6 @@ class _MusicDetailPageState extends State<MusicDetailPage> {
         position = event;
       });
     });
-  }
-
-  seekMusic(int sec) {
-    Duration newPosition = Duration(seconds: sec);
-    audioPlayer.seek(newPosition);
   }
 
   // convert format time
@@ -72,6 +78,9 @@ class _MusicDetailPageState extends State<MusicDetailPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    audioPlayer.onPlayerStateChanged.listen((AudioPlayerState s) {
+      audioPlayerState = s;
+    });
     playMusic(widget.songUrl);
   }
 
@@ -79,11 +88,22 @@ class _MusicDetailPageState extends State<MusicDetailPage> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
+    audioPlayer.release();
     audioPlayer.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    if (audioState == 1 && audioPlayerState == AudioPlayerState.PLAYING) {
+      int timer = int.parse(title);
+      timer = timer + 3100;
+      Duration currentPosition = Duration(milliseconds: timer);
+      currentPosition += widget.currentPosition;
+      audioPlayer.seek(currentPosition);
+      _timer.cancel();
+      audioState = 0;
+    }
+
     return Scaffold(
       backgroundColor: black,
       appBar: getAppBar(),
@@ -107,16 +127,6 @@ class _MusicDetailPageState extends State<MusicDetailPage> {
   }
 
   Widget getBody() {
-    var random = Random();
-    final docSync =
-        FirebaseFirestore.instance.collection("sync").doc(result.toString());
-    if (result == null) {
-      result = 100000 + random.nextInt(999999 - 100000);
-    }
-    if (syncMusic) {
-      docSync.update({'currentPosition': position.inMilliseconds});
-    }
-
     var size = MediaQuery.of(context).size;
     return SingleChildScrollView(
       child: Column(
@@ -198,20 +208,14 @@ class _MusicDetailPageState extends State<MusicDetailPage> {
           SizedBox(
             height: 10,
           ),
-          Slider.adaptive(
+          Slider(
             activeColor: primary,
             value: position.inSeconds.toDouble(),
             max: duration.inSeconds.toDouble(),
             min: 0.0,
-            onChanged: (value) {
-              setState(() {
-                seekMusic(value.toInt());
-              });
-            },
+            onChanged: (double value) {},
           ),
-          SizedBox(
-            height: 20,
-          ),
+          SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.only(left: 30, right: 30),
             child: Row(
@@ -228,9 +232,7 @@ class _MusicDetailPageState extends State<MusicDetailPage> {
               ],
             ),
           ),
-          SizedBox(
-            height: 25,
-          ),
+          SizedBox(height: 25),
           Padding(
             padding: const EdgeInsets.only(left: 20, right: 20),
             child: Row(
@@ -293,67 +295,9 @@ class _MusicDetailPageState extends State<MusicDetailPage> {
               ],
             ),
           ),
-          SizedBox(
-            height: 10,
-          ),
-          GestureDetector(
-            onTap: () async {
-              syncMusic = true;
-              docSync.set({
-                'musicName': widget.title,
-                'artistName': widget.description,
-                'songUrl': widget.songUrl,
-                'imgUrl': widget.img
-              });
-              openDialog();
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.sync,
-                  color: primary,
-                  size: 20,
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  "Müzikleri eşitleyin",
-                  style: TextStyle(color: primary),
-                ),
-              ],
-            ),
-          )
+          Text(title + "Kadir ", style: TextStyle(color: Colors.white)),
         ],
       ),
     );
   }
-
-  Future openDialog() => showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text("Müzik Eşitleme"),
-          actions: [
-            MaterialButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text("Tamam"),
-            ),
-          ],
-          content: Container(
-            height: 75,
-            child: Column(
-              children: [
-                Text(
-                  result.toString(),
-                  style: TextStyle(color: primary, fontSize: 40),
-                ),
-              ],
-            ),
-          ),
-        );
-      });
 }

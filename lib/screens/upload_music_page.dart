@@ -60,7 +60,7 @@ class _UploadState extends State<Upload> {
   }
 
   finalupload(context) {
-    if (songname.text != '' && image_down_url != null) {
+    if (true) {
       print(songname.text);
       print(artistname.text);
       print(song_down_url);
@@ -72,12 +72,6 @@ class _UploadState extends State<Upload> {
         "image_url": image_down_url.toString(),
       };
       FirebaseFirestore.instance.collection("songs").doc().set(data);
-    } else {
-      showDialog(
-        context: context,
-        builder: (context) =>
-            _onTapButton(context, "Please Enter All Details :("),
-      );
     }
   }
 
