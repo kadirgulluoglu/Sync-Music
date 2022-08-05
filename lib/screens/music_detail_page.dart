@@ -1,6 +1,4 @@
-import 'dart:convert';
 import 'dart:math';
-
 import 'package:audioplayers/audioplayers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -31,9 +29,8 @@ class _MusicDetailPageState extends State<MusicDetailPage> {
   bool syncMusic = false;
   int? result;
 
-  var currentvalue;
-  Duration duration = Duration();
-  Duration position = Duration();
+  Duration duration = const Duration();
+  Duration position = const Duration();
   void playMusic(String url) async {
     audioPlayer.setReleaseMode(ReleaseMode.LOOP);
     audioPlayer.play(url);
@@ -95,7 +92,7 @@ class _MusicDetailPageState extends State<MusicDetailPage> {
     return AppBar(
       backgroundColor: black,
       elevation: 0,
-      actions: [
+      actions: const [
         IconButton(
             icon: Icon(
               Icons.more_vert_sharp,
@@ -110,9 +107,7 @@ class _MusicDetailPageState extends State<MusicDetailPage> {
     var random = Random();
     final docSync =
         FirebaseFirestore.instance.collection("sync").doc(result.toString());
-    if (result == null) {
-      result = 100000 + random.nextInt(999999 - 100000);
-    }
+    result ??= 100000 + random.nextInt(999999 - 100000);
     if (syncMusic) {
       docSync.update({'currentPosition': position.inMilliseconds});
     }
@@ -133,7 +128,7 @@ class _MusicDetailPageState extends State<MusicDetailPage> {
                         color: widget.color,
                         blurRadius: 50,
                         spreadRadius: 5,
-                        offset: Offset(-10, 40))
+                        offset: const Offset(-10, 40))
                   ], borderRadius: BorderRadius.circular(20)),
                 ),
               ),
@@ -150,18 +145,18 @@ class _MusicDetailPageState extends State<MusicDetailPage> {
               )
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Padding(
             padding: const EdgeInsets.only(left: 10, right: 10),
-            child: Container(
+            child: SizedBox(
               width: size.width - 80,
               height: 70,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.my_library_add,
                     color: white,
                   ),
@@ -170,12 +165,12 @@ class _MusicDetailPageState extends State<MusicDetailPage> {
                     children: [
                       Text(
                         widget.title,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 18,
                             color: white,
                             fontWeight: FontWeight.bold),
                       ),
-                      Container(
+                      SizedBox(
                         width: 150,
                         child: Text(
                           widget.description,
@@ -187,7 +182,7 @@ class _MusicDetailPageState extends State<MusicDetailPage> {
                       )
                     ],
                   ),
-                  Icon(
+                  const Icon(
                     Icons.more_vert_sharp,
                     color: white,
                   ),
@@ -195,7 +190,7 @@ class _MusicDetailPageState extends State<MusicDetailPage> {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Slider.adaptive(
@@ -209,7 +204,7 @@ class _MusicDetailPageState extends State<MusicDetailPage> {
               });
             },
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Padding(
@@ -228,7 +223,7 @@ class _MusicDetailPageState extends State<MusicDetailPage> {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 25,
           ),
           Padding(
@@ -253,8 +248,8 @@ class _MusicDetailPageState extends State<MusicDetailPage> {
                 IconButton(
                     iconSize: 50,
                     icon: Container(
-                      decoration:
-                          BoxDecoration(shape: BoxShape.circle, color: primary),
+                      decoration: const BoxDecoration(
+                          shape: BoxShape.circle, color: primary),
                       child: Center(
                         child: Icon(
                           isPlaying ? Icons.pause : Icons.play_arrow,
@@ -293,7 +288,7 @@ class _MusicDetailPageState extends State<MusicDetailPage> {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           GestureDetector(
@@ -309,7 +304,7 @@ class _MusicDetailPageState extends State<MusicDetailPage> {
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+              children: const [
                 Icon(
                   Icons.sync,
                   color: primary,
@@ -334,22 +329,22 @@ class _MusicDetailPageState extends State<MusicDetailPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text("Müzik Eşitleme"),
+          title: const Text("Müzik Eşitleme"),
           actions: [
             MaterialButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text("Tamam"),
+              child: const Text("Tamam"),
             ),
           ],
-          content: Container(
+          content: SizedBox(
             height: 50,
             child: Column(
               children: [
                 Text(
                   result.toString(),
-                  style: TextStyle(color: primary, fontSize: 40),
+                  style: const TextStyle(color: primary, fontSize: 40),
                 ),
               ],
             ),

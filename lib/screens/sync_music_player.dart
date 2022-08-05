@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:youtube_sync_music/screens/music_detail_page.dart';
 import 'package:youtube_sync_music/theme/colors.dart';
 
 import 'sync_music_detail_page.dart';
@@ -23,13 +22,11 @@ class _SyncMusicPlayerState extends State<SyncMusicPlayer> {
       builder:
           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.hasError) {
-          print("Something went wrong");
-          return Text("Something went wrong");
+          return const Text("Something went wrong");
         }
 
         if (snapshot.hasData && !snapshot.data!.exists) {
-          print("Document does not exist");
-          return Text("Document does not exist");
+          return const Text("Document does not exist");
         }
 
         if (snapshot.connectionState == ConnectionState.done) {
@@ -45,9 +42,9 @@ class _SyncMusicPlayerState extends State<SyncMusicPlayer> {
               img: data['imgUrl'],
               songUrl: data['songUrl']);
         }
-        return Scaffold(
+        return const Scaffold(
           backgroundColor: black,
-          body: const Center(child: CircularProgressIndicator(color: primary)),
+          body: Center(child: CircularProgressIndicator(color: primary)),
         );
       },
     ));

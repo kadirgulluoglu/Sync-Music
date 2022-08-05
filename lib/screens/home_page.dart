@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
         padding: const EdgeInsets.only(left: 10, right: 10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
+          children: const [
             Text(
               "Keşfet",
               style: TextStyle(
@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
+            SizedBox(
               height: 60,
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
@@ -82,7 +82,7 @@ class _HomePageState extends State<HomePage> {
                                   color: activeMenu1 == index ? primary : grey,
                                   fontWeight: FontWeight.w600),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 3,
                             ),
                             activeMenu1 == index
@@ -102,8 +102,8 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            SizedBox(height: 20),
-            Container(
+            const SizedBox(height: 20),
+            SizedBox(
               height: 240,
               child: FutureBuilder<QuerySnapshot>(
                 future: FirebaseFirestore.instance.collection("songs").get(),
@@ -127,7 +127,7 @@ class _HomePageState extends State<HomePage> {
                                               title: snapshot
                                                   .data!.docs[i]['song_name']
                                                   .toString(),
-                                              color: Color(0xFF58546c),
+                                              color: const Color(0xFF58546c),
                                               description: snapshot
                                                   .data!.docs[i]['artist_name']
                                                   .toString(),
@@ -155,26 +155,26 @@ class _HomePageState extends State<HomePage> {
                                             borderRadius:
                                                 BorderRadius.circular(10)),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 20,
                                       ),
                                       Text(
                                         snapshot.data!.docs[i]['song_name'],
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontSize: 15,
                                             color: white,
                                             fontWeight: FontWeight.w600),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 5,
                                       ),
-                                      Container(
+                                      SizedBox(
                                         width: 180,
                                         child: Text(
                                           snapshot.data!.docs[i]['artist_name'],
                                           maxLines: 1,
                                           textAlign: TextAlign.center,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               fontSize: 12,
                                               color: grey,
                                               fontWeight: FontWeight.w600),
@@ -188,7 +188,7 @@ class _HomePageState extends State<HomePage> {
                           );
                         });
                   } else {
-                    return Center(
+                    return const Center(
                       child: CircularProgressIndicator(
                         color: primary,
                       ),
@@ -199,11 +199,11 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
-        SizedBox(height: 30),
+        const SizedBox(height: 30),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
+            SizedBox(
               height: 60,
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
@@ -229,7 +229,7 @@ class _HomePageState extends State<HomePage> {
                                   color: activeMenu2 == index ? primary : grey,
                                   fontWeight: FontWeight.w600),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 3,
                             ),
                             activeMenu2 == index
@@ -249,8 +249,8 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            SizedBox(height: 20),
-            Container(
+            const SizedBox(height: 20),
+            SizedBox(
               height: 240,
               child: FutureBuilder<QuerySnapshot>(
                 future: FirebaseFirestore.instance.collection("songs").get(),
@@ -274,7 +274,7 @@ class _HomePageState extends State<HomePage> {
                                               title: snapshot
                                                   .data!.docs[i]['song_name']
                                                   .toString(),
-                                              color: Color(0xFF58546c),
+                                              color: const Color(0xFF58546c),
                                               description: snapshot
                                                   .data!.docs[i]['artist_name']
                                                   .toString(),
@@ -302,26 +302,26 @@ class _HomePageState extends State<HomePage> {
                                             borderRadius:
                                                 BorderRadius.circular(10)),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 20,
                                       ),
                                       Text(
                                         snapshot.data!.docs[i]['song_name'],
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontSize: 15,
                                             color: white,
                                             fontWeight: FontWeight.w600),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 5,
                                       ),
-                                      Container(
+                                      SizedBox(
                                         width: 180,
                                         child: Text(
                                           snapshot.data!.docs[i]['artist_name'],
                                           maxLines: 1,
                                           textAlign: TextAlign.center,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               fontSize: 12,
                                               color: grey,
                                               fontWeight: FontWeight.w600),
@@ -335,7 +335,7 @@ class _HomePageState extends State<HomePage> {
                           );
                         });
                   } else {
-                    return Center(
+                    return const Center(
                       child: CircularProgressIndicator(
                         color: primary,
                       ),

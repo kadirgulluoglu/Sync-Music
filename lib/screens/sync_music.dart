@@ -1,21 +1,16 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:youtube_sync_music/screens/sync_music_player.dart';
 import 'package:youtube_sync_music/theme/colors.dart';
 
-class syncMusic extends StatefulWidget {
-  const syncMusic({Key? key}) : super(key: key);
+class SyncMusic extends StatefulWidget {
+  const SyncMusic({Key? key}) : super(key: key);
 
   @override
-  State<syncMusic> createState() => _syncMusicState();
+  State<SyncMusic> createState() => _SyncMusicState();
 }
 
-class _syncMusicState extends State<syncMusic> {
+class _SyncMusicState extends State<SyncMusic> {
   TextEditingController syncController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -34,12 +29,12 @@ class _syncMusicState extends State<syncMusic> {
         children: [
           Image.asset("assets/images/logo.png"),
           TextField(
-            style: TextStyle(color: Colors.white),
+            style: const TextStyle(color: Colors.white),
             maxLength: 6,
             enableIMEPersonalizedLearning: false,
             keyboardType: TextInputType.number,
             controller: syncController,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
                 focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: primary, width: 2)),
                 enabledBorder: OutlineInputBorder(
@@ -59,7 +54,7 @@ class _syncMusicState extends State<syncMusic> {
                       child: SyncMusicPlayer(docId: syncController.text),
                       type: PageTransitionType.scale));
             },
-            child: Text(
+            child: const Text(
               "Eşitle",
               style: TextStyle(color: primary),
             ),

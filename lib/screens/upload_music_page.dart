@@ -7,15 +7,17 @@ import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 
 class Upload extends StatefulWidget {
+  const Upload({Key? key}) : super(key: key);
+
   @override
   _UploadState createState() => _UploadState();
 }
 
 class _UploadState extends State<Upload> {
-  TextEditingController songname = TextEditingController();
-  TextEditingController artistname = TextEditingController();
+  TextEditingController songName = TextEditingController();
+  TextEditingController artistName = TextEditingController();
 
-  late String imagepath, songpath;
+  late String imagepath, songPath;
   late Reference refenceyol;
   var image_down_url, song_down_url;
   late PlatformFile imageresult, songresult;
@@ -41,42 +43,33 @@ class _UploadState extends State<Upload> {
     setState(() {
       songresult = sresult!.files.first;
       File song = File(songresult.path!);
-      songpath = basename(song.path.toString());
-      uploadsongfile(song.readAsBytesSync(), songpath);
+      songPath = basename(song.path.toString());
+      uploadSongFile(song.readAsBytesSync(), songPath);
     });
   }
 
-  uploadsongfile(Uint8List song, String songpath) async {
-    refenceyol = FirebaseStorage.instance.ref().child(songpath);
+  uploadSongFile(Uint8List song, String songPath) async {
+    refenceyol = FirebaseStorage.instance.ref().child(songPath);
     UploadTask uploadTask = refenceyol.putData(song);
     uploadTask.whenComplete(() async {
       try {
         song_down_url = refenceyol.getDownloadURL();
       } catch (onError) {
-        print("Errors");
+        const Text("Errors");
       }
-      print(song_down_url);
     });
   }
 
-  finalupload(context) {
+  finalUpload(context) {
     if (true) {
-      print(songname.text);
-      print(artistname.text);
-      print(song_down_url);
-      print(image_down_url.toString());
       var data = {
-        "song_name": songname.text,
-        "artist_name": artistname.text,
+        "song_name": songName.text,
+        "artist_name": artistName.text,
         "song_url": song_down_url.toString(),
         "image_url": image_down_url.toString(),
       };
       FirebaseFirestore.instance.collection("songs").doc().set(data);
     }
-  }
-
-  _onTapButton(BuildContext context, data) {
-    return AlertDialog(title: Text(data));
   }
 
   @override
@@ -89,30 +82,30 @@ class _UploadState extends State<Upload> {
           children: <Widget>[
             ElevatedButton(
               onPressed: () => selectimage(),
-              child: Text(
+              child: const Text(
                 "Select Image",
                 style: TextStyle(color: Colors.white),
               ),
             ),
             ElevatedButton(
               onPressed: () => selectsong(),
-              child: Text("Select Song"),
+              child: const Text("Select Song"),
             ),
             TextField(
-              controller: songname,
-              decoration: InputDecoration(
+              controller: songName,
+              decoration: const InputDecoration(
                 hintText: "Enter song name",
               ),
             ),
             TextField(
-              controller: artistname,
-              decoration: InputDecoration(
+              controller: artistName,
+              decoration: const InputDecoration(
                 hintText: "Enter artist name",
               ),
             ),
             ElevatedButton(
-              onPressed: () => finalupload(context),
-              child: Text("Upload"),
+              onPressed: () => finalUpload(context),
+              child: const Text("Upload"),
             ),
           ],
         )),

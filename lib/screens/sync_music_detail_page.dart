@@ -1,5 +1,4 @@
 import 'package:audioplayers/audioplayers.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../theme/colors.dart';
 import 'dart:async';
@@ -33,14 +32,14 @@ class _SyncMusicDetailPageState extends State<SyncMusicDetailPage> {
   late Timer _timer;
   String title = "";
   int audioState = 1;
-  Duration pos = Duration();
-  Duration duration = Duration(seconds: 594);
-  Duration position = Duration();
+  Duration pos = const Duration();
+  Duration duration = const Duration(seconds: 594);
+  Duration position = const Duration();
 
   void playMusic(String url) async {
     audioPlayer.play(url);
     pos = widget.currentPosition;
-    _timer = Timer.periodic(Duration(microseconds: 1), (timer) {
+    _timer = Timer.periodic(const Duration(microseconds: 1), (timer) {
       setState(() {
         title = "${DateTime.now().millisecond}";
       });
@@ -114,7 +113,7 @@ class _SyncMusicDetailPageState extends State<SyncMusicDetailPage> {
     return AppBar(
       backgroundColor: black,
       elevation: 0,
-      actions: [
+      actions: const [
         IconButton(
             icon: Icon(
               Icons.more_vert_sharp,
@@ -142,7 +141,7 @@ class _SyncMusicDetailPageState extends State<SyncMusicDetailPage> {
                         color: widget.color,
                         blurRadius: 50,
                         spreadRadius: 5,
-                        offset: Offset(-10, 40))
+                        offset: const Offset(-10, 40))
                   ], borderRadius: BorderRadius.circular(20)),
                 ),
               ),
@@ -159,18 +158,18 @@ class _SyncMusicDetailPageState extends State<SyncMusicDetailPage> {
               )
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Padding(
             padding: const EdgeInsets.only(left: 10, right: 10),
-            child: Container(
+            child: SizedBox(
               width: size.width - 80,
               height: 70,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.my_library_add,
                     color: white,
                   ),
@@ -179,12 +178,12 @@ class _SyncMusicDetailPageState extends State<SyncMusicDetailPage> {
                     children: [
                       Text(
                         widget.title,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 18,
                             color: white,
                             fontWeight: FontWeight.bold),
                       ),
-                      Container(
+                      SizedBox(
                         width: 150,
                         child: Text(
                           widget.description,
@@ -196,7 +195,7 @@ class _SyncMusicDetailPageState extends State<SyncMusicDetailPage> {
                       )
                     ],
                   ),
-                  Icon(
+                  const Icon(
                     Icons.more_vert_sharp,
                     color: white,
                   ),
@@ -204,7 +203,7 @@ class _SyncMusicDetailPageState extends State<SyncMusicDetailPage> {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Slider(
@@ -214,7 +213,7 @@ class _SyncMusicDetailPageState extends State<SyncMusicDetailPage> {
             min: 0.0,
             onChanged: (double value) {},
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.only(left: 30, right: 30),
             child: Row(
@@ -231,7 +230,7 @@ class _SyncMusicDetailPageState extends State<SyncMusicDetailPage> {
               ],
             ),
           ),
-          SizedBox(height: 25),
+          const SizedBox(height: 25),
           Padding(
             padding: const EdgeInsets.only(left: 20, right: 20),
             child: Row(
@@ -254,8 +253,8 @@ class _SyncMusicDetailPageState extends State<SyncMusicDetailPage> {
                 IconButton(
                     iconSize: 50,
                     icon: Container(
-                      decoration:
-                          BoxDecoration(shape: BoxShape.circle, color: primary),
+                      decoration: const BoxDecoration(
+                          shape: BoxShape.circle, color: primary),
                       child: Center(
                         child: Icon(
                           isPlaying ? Icons.pause : Icons.play_arrow,
